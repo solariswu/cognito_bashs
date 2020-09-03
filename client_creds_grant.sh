@@ -5,7 +5,7 @@
 #===============================================================================
 
 ## Set constants ##
-AUTH_DOMAIN="YOURDOMAIN.auth.REGION.amazoncognito.com" # Update MYDOMAIN and REGION
+AUTH_DOMAIN="YOURDOMAIN.auth.REGION.amazoncognito.com" # Update YOURDOMAIN and REGION
 CLIENT_ID="xxxxxxxxxxxxxx" # Replace with app client ID
 CLIENT_SECRET="xxxxxxxxxx" # Replace with app client secret
 GRANT_TYPE="client_credentials"
