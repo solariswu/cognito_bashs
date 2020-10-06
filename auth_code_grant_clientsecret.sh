@@ -13,26 +13,9 @@ SCOPE="openid"
 USERNAME="testuser" # Replace with valid user
 PASSWORD="password "# Replace with valid password
 
-## Create a code_verifier and code_challenge ##
-CODE_CHALLENGE_METHOD="S256"
-code_verifier="$(cat /dev/urandom \
-                    | tr -dc 'a-zA-Z0-9._~-' \
-                    | fold -w 64 \
-                    | head -n 1 \
-                    | base64 \
-                    | tr '+/' '-_' \
-                    | tr -d '='
-                )"
-code_challenge="$(printf "$code_verifier" \
-                    | openssl dgst -sha256 -binary \
-                    | base64 \
-                    | tr '+/' '-_' \
-                    | tr -d '='
-                )"
-
 ## 1. Make request to /oauth2/authorize endpoint ##
 curl_response="$(
-    curl -sv "https://${AUTH_DOMAIN}/oauth2/authorize?response_type=${RESPONSE_TYPE}&client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&scope=${SCOPE}&code_challenge_method=${CODE_CHALLENGE_METHOD}&code_challenge=${code_challenge}" 2>&1
+    curl -sv "https://${AUTH_DOMAIN}/oauth2/authorize?response_type=${RESPONSE_TYPE}&client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&scope=${SCOPE}" 2>&1
 )"
 
 ## 2. Get CSRF token and login redirect URL from response Location and Cookie ##
@@ -82,6 +65,5 @@ curl "https://${AUTH_DOMAIN}/oauth2/token" \
     -d "grant_type=${GRANT_TYPE}" \
     -d "client_id=${CLIENT_ID}" \
     -d "code=${auth_code}" \
-    -d "redirect_uri=${REDIRECT_URI}" \
-    -d "code_verifier=${code_verifier}"
+    -d "redirect_uri=${REDIRECT_URI}" 
     
