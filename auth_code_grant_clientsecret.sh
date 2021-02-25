@@ -31,6 +31,9 @@ csrf_token="$(printf "%s" "$curl_response" \
                     print $3;
                 }')"
 
+echo "Login URL is \"$curl_redirect\""
+echo ---
+
 ## 3. Authenticate with User Pool by posting credentials to /login endpoint ##
 curl_response="$(
     curl -sv "$curl_redirect" \
@@ -54,12 +57,23 @@ auth_code="$(printf "%s" "$curl_redirect" \
                     print
                 }')"
 
+echo "Got authentication code -> \"$auth_code\""
+echo ---
+
 ## 5. Exchange auth code with tokens by hitting /oauth2/token endpoint ##
 authorization="$(printf "${CLIENT_ID}:${CLIENT_SECRET}" \
                     | base64 \
                     | tr -d "\n"
                 )"
 GRANT_TYPE="authorization_code"
+
+echo "curl \"https://${AUTH_DOMAIN}/oauth2/token\" \
+    -H \"Authorization: Basic ${authorization}\" \
+    -d \"grant_type=${GRANT_TYPE}\" \
+    -d \"client_id=${CLIENT_ID}\" \
+    -d \"code=${auth_code}\" \
+    -d \"redirect_uri=${REDIRECT_URI}\""
+
 curl "https://${AUTH_DOMAIN}/oauth2/token" \
     -H "Authorization: Basic ${authorization}" \
     -d "grant_type=${GRANT_TYPE}" \
