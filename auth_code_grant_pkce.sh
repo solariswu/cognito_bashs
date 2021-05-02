@@ -13,6 +13,7 @@ SCOPE="openid"
 USERNAME="testuser" # Replace with valid user
 PASSWORD="password "# Replace with valid password
 
+export LC_CTYPE=C
 ## Create a code_verifier and code_challenge ##
 CODE_CHALLENGE_METHOD="S256"
 code_verifier="$(cat /dev/urandom \
@@ -72,13 +73,8 @@ auth_code="$(printf "%s" "$curl_redirect" \
                 }')"
 
 ## 5. Exchange auth code with tokens by hitting /oauth2/token endpoint ##
-authorization="$(printf "${CLIENT_ID}:${CLIENT_SECRET}" \
-                    | base64 \
-                    | tr -d "\n"
-                )"
 GRANT_TYPE="authorization_code"
 curl "https://${AUTH_DOMAIN}/oauth2/token" \
-    -H "Authorization: Basic ${authorization}" \
     -d "grant_type=${GRANT_TYPE}" \
     -d "client_id=${CLIENT_ID}" \
     -d "code=${auth_code}" \

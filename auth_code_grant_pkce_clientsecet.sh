@@ -13,6 +13,7 @@ SCOPE="openid"
 USERNAME="testuser" # Replace with valid user
 PASSWORD="password "# Replace with valid password
 
+export LC_CTYPE=C
 ## Create a code_verifier and code_challenge ##
 CODE_CHALLENGE_METHOD="S256"
 code_verifier="$(cat /dev/urandom \
