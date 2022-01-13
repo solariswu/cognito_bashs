@@ -53,8 +53,20 @@ auth_code="$(printf "%s" "$curl_redirect" \
                     sub(/.*code=/, "");
                     print;
                 }')"
+echo "Got authentication code -> \"$auth_code\""
+echo ---
 
 ## 5. Exchange auth code with tokens by hitting /oauth2/token endpoint ##
+step5_cmd="
+    curl \"https://${AUTH_DOMAIN}/oauth2/token\" \
+    -d \"grant_type=${GRANT_TYPE}\" \
+    -d \"client_id=${CLIENT_ID}\" \
+    -d \"code=${auth_code}\" \
+    -d \"redirect_uri=${REDIRECT_URI}\"
+    "
+
+echo $step5_cmd
+
 GRANT_TYPE="authorization_code"
 curl "https://${AUTH_DOMAIN}/oauth2/token" \
     -d "grant_type=${GRANT_TYPE}" \
