@@ -1,11 +1,10 @@
 #===============================================================================
-# AUTHORIZATION CODE GRANT WITH PKCE AND CLIENT SECRET
+# AUTHORIZATION CODE GRANT WITH PKCE WITHOUT CLIENT SECRET
 #===============================================================================
 
 ## Set constants ##
 AUTH_DOMAIN="MYDOMAIN.auth.REGION.amazoncognito.com" # Update MYDOMAIN and REGION
 CLIENT_ID="xxxxxxxxxxxxxxxxxxxxxxxxx" # Replace with app client ID
-CLIENT_SECRET="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" # Replace with app client secret
 RESPONSE_TYPE="code"
 REDIRECT_URI="https://example.com/" # Replace with configured redirect URI
 SCOPE="openid"
